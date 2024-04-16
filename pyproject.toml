@@ -1,0 +1,85 @@
+[project]
+name = "AIOgram_study_1"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "Bllagden", email = "bllagden99@gmail.com"},
+]
+dependencies = [
+    "aiogram>=3.4.1",
+    "pydantic[email]>=2.5.3",
+    "pydantic-settings>=2.2.1",
+]
+requires-python = "==3.11.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+package-type = "application"
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "ruff>=0.3.5",
+    "black>=24.3.0",
+    "isort>=5.13.2",
+]
+
+[tool.pytest.ini_options]
+pythonpath = "src"
+asyncio_mode = "auto"
+env_files = [
+    ".env.test",
+]
+
+[tool.isort]
+profile = "black"
+
+[tool.ruff]
+fixable = [
+  "F",
+  "E",
+  "W",
+  "I",
+  "COM",
+  "UP",
+  "RUF",
+]
+ignore = [
+  "E501", # Line Length
+  "A003", # Class attribute ... is shadowing a python builtin
+  "ANN101",
+  "ANN102",
+  "D", # pydocstyle
+  "INP",
+  "TCH001",
+  "TCH002",
+  "TCH003",
+  "RUF001",
+  "RUF002",
+  "RUF003",
+  "RUF012",
+  "RUF200",
+  "ERA001",
+  "TID252",
+  "PLR0913",
+]
+select = ["ALL"]
+src = ["src", "tests"]
+
+[tool.ruff.per-file-ignores]
+"src/alembic/*" = ["UP007"]
+"src/logger.py" = ["ANN001", "UP008"]
+"tests/*" = [
+  "S101",
+  "PT006", # Wrong name(s) type in `@pytest.mark.parametrize`, expected `tuple`
+  "S311",
+]
+
+[tool.pdm.scripts]
+lint_src = {composite = [
+  "ruff check ./src --fix --show-fixes",
+  "black ./src",
+  "ruff check ./src --fix --show-fixes",
+  "alembic check",
+]}
