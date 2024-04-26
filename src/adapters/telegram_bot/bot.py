@@ -8,6 +8,7 @@ from aiogram.types import BotCommand
 
 from settings import TelegramBotSettings, get_settings
 
+from .middleware import SomeMiddleware
 from .routers import echo, r1_reply, r2_extra_params, r3_text, r4_keyboards, start
 
 MAIN_ROUTERS: Sequence[Router] = [
@@ -18,6 +19,10 @@ MAIN_ROUTERS: Sequence[Router] = [
     r4_keyboards.router,
     echo.router,
 ]
+
+
+def _configure_middlewares(common_router: Router) -> None:
+    common_router.message.outer_middleware.register(SomeMiddleware())
 
 
 def _register_routes(
@@ -40,6 +45,7 @@ async def main_bot() -> None:
     # logging.basicConfig(level=logging.DEBUG)
 
     main_router = Router()
+    _configure_middlewares(main_router)
     _register_routes(main_router, MAIN_ROUTERS)
 
     dispatcher = Dispatcher()

@@ -10,4 +10,5 @@ router = Router()
 async def start_handler(message: Message) -> None:
     user_names = f"{html.quote(message.from_user.full_name)}"
     user_link = f"<a href='tg://user?id={message.from_user.id}'>{user_names}</a>"
+    print("start")
     await message.answer(f"Hi {user_link}!", parse_mode=ParseMode.HTML)
