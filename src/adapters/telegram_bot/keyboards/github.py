@@ -10,3 +10,16 @@ MARKUP = InlineKeyboardMarkup(
         ],
     ],
 )
+#####################################################################################
+
+GITHUB_BUTTON = InlineKeyboardButton(
+    text="GitHub",
+    url="https://github.com/Bllagden",
+)
+
+
+BUILDER = InlineKeyboardBuilder(
+    markup=[
+        [GITHUB_BUTTON],
+    ],
+)

@@ -1,6 +1,5 @@
 from aiogram.filters.callback_data import CallbackData
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
-from aiogram.utils.keyboard import ReplyKeyboardBuilder
 
 MARKUP = ReplyKeyboardMarkup(
     keyboard=[
@@ -10,5 +9,5 @@ MARKUP = ReplyKeyboardMarkup(
     resize_keyboard=True,
     one_time_keyboard=True,
     input_field_placeholder="Выберите действие",
-    selective=True,
+    selective=True,  # для групп (будет показана только определенным пользователям)
 )

@@ -69,6 +69,7 @@ async def main_bot() -> None:
                 BotCommand(command="aiogram_as_list", description="as_list()"),
                 BotCommand(command="settimer", description="команда с аргументами"),
                 BotCommand(command="menu", description="Меню"),
+                BotCommand(command="contacts", description="Контакты"),
             ],
         )
         await dispatcher.start_polling(bot, extra_list=[1, 2, 3])

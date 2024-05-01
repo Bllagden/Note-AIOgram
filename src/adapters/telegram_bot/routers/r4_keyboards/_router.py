@@ -1,9 +1,8 @@
 from aiogram import F, Router
-from aiogram.enums import ParseMode
-from aiogram.filters import Command, CommandObject
+from aiogram.filters import Command
 from aiogram.types import Message
 
-from adapters.telegram_bot.keyboards import inline_links, main_keyboard
+from adapters.telegram_bot.keyboards import contacts, github, main_keyboard
 
 router = Router()
 
@@ -30,4 +29,19 @@ async def btn_3_handler(message: Message) -> None:
 
 @router.message(F.text.lower() == "links")
 async def inline_btn_handler(message: Message) -> None:
-    await message.answer("Вот ваши ссылки:", reply_markup=inline_links.MARKUP)
+    # await message.answer("Вот ваши ссылки:", reply_builder=inline_links.MARKUP)
+    await message.answer(
+        "Вот ваши ссылки:",
+        reply_markup=github.BUILDER.as_markup(),
+    )
+
+
+@router.message(Command("contacts"))
+async def contacts_handler_2(message: Message) -> None:
+    await message.answer(
+        "Запрос контактов",
+        reply_markup=contacts.BUILDER.as_markup(
+            one_time_keyboard=True,
+            resize_keyboard=True,
+        ),
+    )
