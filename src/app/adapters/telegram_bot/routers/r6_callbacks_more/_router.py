@@ -6,6 +6,6 @@ from aiogram.filters import Command
 from aiogram.filters.callback_data import CallbackQuery
 from aiogram.types import Message
 
-from adapters.telegram_bot.keyboards import fabnum_call
+from app.adapters.telegram_bot.keyboards import fabnum_call
 
 router = Router()

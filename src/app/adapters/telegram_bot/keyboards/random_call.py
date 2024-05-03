@@ -1,6 +1,6 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder, InlineKeyboardButton
 
-from adapters.telegram_bot.callbacks import RandomCallback
+from app.adapters.telegram_bot.callbacks import RandomCallback
 
 # pack() -> generate callback data string
 #

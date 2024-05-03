@@ -5,9 +5,12 @@ from datetime import UTC, datetime
 from aiogram import Bot, Dispatcher, Router
 from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.types import BotCommand
-from aioinject.ext.aiogram import AioInjectMiddleware, inject
+from aioinject import Container
+from aioinject.ext.aiogram import AioInjectMiddleware
 
-from settings import TelegramBotSettings, get_settings
+from app.di import create_container
+from app.settings import TelegramBotSettings
+from lib.settings import get_settings
 
 from .middleware import SomeMiddleware
 from .routers import (
@@ -33,16 +36,16 @@ MAIN_ROUTERS: Sequence[Router] = [
 ]
 
 
-def _configure_middlewares(common_router: Router) -> None:
-    common_router.message.outer_middleware.register(SomeMiddleware())
+def _configure_middlewares(core_router: Router, container: Container) -> None:
+    core_router.message.outer_middleware.register(AioInjectMiddleware(container))
+    core_router.callback_query.outer_middleware.register(AioInjectMiddleware(container))
+
+    core_router.message.outer_middleware.register(SomeMiddleware())
 
 
-def _register_routes(
-    common_router: Router,
-    routers: Sequence[Router],
-) -> None:
+def _register_routes(core_router: Router, routers: Sequence[Router]) -> None:
     for router in routers:
-        common_router.include_router(router)
+        core_router.include_router(router)
 
 
 @contextlib.asynccontextmanager
@@ -57,7 +60,9 @@ async def main_bot() -> None:
     # logging.basicConfig(level=logging.DEBUG)
 
     main_router = Router()
-    _configure_middlewares(main_router)
+    container = create_container()
+
+    _configure_middlewares(main_router, container)
     _register_routes(main_router, MAIN_ROUTERS)
 
     dispatcher = Dispatcher()

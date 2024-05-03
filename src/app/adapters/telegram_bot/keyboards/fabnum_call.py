@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder, InlineKeyboardButton
 
-from adapters.telegram_bot.callbacks import NumbersCallback
+from app.adapters.telegram_bot.callbacks import NumbersCallback
 
 CHANGE_1_BUTTON = InlineKeyboardButton(
     text="-2",

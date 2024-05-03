@@ -2,7 +2,7 @@ from aiogram import F, Router
 from aiogram.filters import Command
 from aiogram.types import Message
 
-from adapters.telegram_bot.keyboards import contacts, github_, main_keyboard
+from app.adapters.telegram_bot.keyboards import contacts, github_, main_keyboard
 
 router = Router()
 

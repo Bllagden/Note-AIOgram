@@ -1,15 +1,10 @@
 from typing import TypeVar
 
-import dotenv
-from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+# from pydantic import SecretStr
+
 TSettings = TypeVar("TSettings", bound=BaseSettings)
-
-
-def get_settings(cls: type[TSettings]) -> TSettings:
-    dotenv.load_dotenv()
-    return cls()
 
 
 class TelegramBotSettings(BaseSettings):

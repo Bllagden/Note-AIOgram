@@ -1,0 +1,2 @@
+class SomeRepository:
+    pass
