@@ -21,7 +21,7 @@ router = Router()
 @router.message(F.text, Command("italics"))
 async def italics_message_handler(message: Message) -> None:
     await message.answer("Hello, <i>world</i>!", parse_mode=ParseMode.HTML)
-    await message.answer("Hello, _world_\!", parse_mode=ParseMode.MARKDOWN_V2)
+    await message.answer(r"Hello, _world_\!", parse_mode=ParseMode.MARKDOWN_V2)
 
 
 @router.message(F.text, Command("aiogram_text"))

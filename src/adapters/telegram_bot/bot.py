@@ -5,11 +5,21 @@ from datetime import UTC, datetime
 from aiogram import Bot, Dispatcher, Router
 from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.types import BotCommand
+from aioinject.ext.aiogram import AioInjectMiddleware, inject
 
 from settings import TelegramBotSettings, get_settings
 
 from .middleware import SomeMiddleware
-from .routers import echo, r1_reply, r2_extra_params, r3_text, r4_keyboards, start
+from .routers import (
+    echo,
+    r1_reply,
+    r2_extra_params,
+    r3_text,
+    r4_keyboards,
+    r5_callbacks,
+    r6_callbacks_more,
+    start,
+)
 
 MAIN_ROUTERS: Sequence[Router] = [
     start.router,
@@ -17,6 +27,8 @@ MAIN_ROUTERS: Sequence[Router] = [
     r2_extra_params.router,
     r3_text.router,
     r4_keyboards.router,
+    r5_callbacks.router,
+    r6_callbacks_more.router,
     echo.router,
 ]
 
@@ -27,9 +39,9 @@ def _configure_middlewares(common_router: Router) -> None:
 
 def _register_routes(
     common_router: Router,
-    sequence_routers: Sequence[Router],
+    routers: Sequence[Router],
 ) -> None:
-    for router in sequence_routers:
+    for router in routers:
         common_router.include_router(router)
 
 
@@ -70,6 +82,7 @@ async def main_bot() -> None:
                 BotCommand(command="settimer", description="команда с аргументами"),
                 BotCommand(command="menu", description="Меню"),
                 BotCommand(command="contacts", description="Контакты"),
+                BotCommand(command="random", description="Рандом_call"),
             ],
         )
         await dispatcher.start_polling(bot, extra_list=[1, 2, 3])

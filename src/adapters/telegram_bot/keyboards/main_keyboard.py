@@ -1,4 +1,3 @@
-from aiogram.filters.callback_data import CallbackData
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 
 MARKUP = ReplyKeyboardMarkup(

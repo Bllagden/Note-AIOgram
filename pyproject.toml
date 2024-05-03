@@ -9,6 +9,7 @@ dependencies = [
     "aiogram>=3.4.1",
     "pydantic[email]>=2.5.3",
     "pydantic-settings>=2.2.1",
+    "aioinject>=0.33.0",
 ]
 requires-python = "==3.11.*"
 readme = "README.md"
