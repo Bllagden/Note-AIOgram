@@ -12,5 +12,7 @@ class SomeMiddleware(BaseMiddleware):
         event: TelegramObject,
         data: dict[str, Any],
     ) -> Any:  # noqa: ANN401
-        print("M")
-        await handler(event, data)
+        handle = handler(event, data)
+        print("M Before handler")
+        await handle
+        print("M After handler")

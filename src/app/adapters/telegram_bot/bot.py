@@ -41,6 +41,7 @@ def _configure_middlewares(core_router: Router, container: Container) -> None:
     core_router.callback_query.outer_middleware.register(AioInjectMiddleware(container))
 
     core_router.message.outer_middleware.register(SomeMiddleware())
+    core_router.callback_query.outer_middleware.register(SomeMiddleware())
 
 
 def _register_routes(core_router: Router, routers: Sequence[Router]) -> None:

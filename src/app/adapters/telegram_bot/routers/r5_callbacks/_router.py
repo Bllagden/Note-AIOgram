@@ -1,11 +1,18 @@
 from random import randint
+from typing import Annotated
 
 from aiogram import F, Router
 from aiogram.filters import Command
 from aiogram.filters.callback_data import CallbackQuery
+from aiogram.handlers import CallbackQueryHandler, MessageHandler
 from aiogram.types import Message
+from aioinject import Inject
+from aioinject.ext.aiogram import inject
 
 from app.adapters.telegram_bot.keyboards import random_call
+from app.adapters.telegram_bot.mixins import RemoveKeyboardMixin
+from app.core.some.repository import SomeRepository
+from lib.di import INJECTED
 
 router = Router()
 
@@ -19,10 +26,21 @@ async def random_handler(message: Message) -> None:
 
 
 @router.callback_query(F.data == "random_value")
-async def random_callback(callback: CallbackQuery) -> None:
-    await callback.message.answer(str(randint(1, 10)))  # noqa: S311
-    await callback.answer()
-    # await callback.answer(
-    #     text="Спасибо, что воспользовались ботом!",
-    #     show_alert=True,
-    # )
+class RandomCallbackHandler(CallbackQueryHandler, RemoveKeyboardMixin):
+
+    @inject
+    async def handle(
+        self,
+        repository: Annotated[SomeRepository, Inject] = INJECTED,
+    ) -> None:
+        await self._remove_keyboard()
+
+        print(repository)
+        await self.bot.send_message(
+            chat_id=self.from_user.id,
+            text=str(randint(1, 10)),  # noqa: S311
+        )
+        # await self.event.answer(
+        #     text=str(randint(1, 10)),
+        #     show_alert=True,
+        # )
